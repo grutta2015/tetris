@@ -10,7 +10,7 @@ int main(){
     Board board;
     RenderWindow window(VideoMode({420, 420}), "Tetris");
     window.setFramerateLimit(60);
-
+    board.InstallPart();
     while (window.isOpen())
     {
         while (const optional event = window.pollEvent())

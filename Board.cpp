@@ -18,19 +18,52 @@ Board::Board()
     }
 }
 
+bool Board::InstallPart(){
+    srand(time(NULL));
+    indNewPart = rand()%7;
+
+    vector<vector<bool>> part = parts.ConsultPart(indNewPart);
+    int sz = (int) part.size();
+
+    indY = 0;
+    indX = 5 - sz/2;
+
+    for(int i = 0; i < sz; i++){
+        for(int j = 0; j < sz; j++){
+            if(part[i][j]){
+                if(board[i+indY][j+indX] > 0) return false;
+                board[i+indY][j+indX]=-1;
+            }
+        }
+    }
+    indColorNewPart = indNewPart + 1; // el mas uno es patra que coincida con el switch case de colores
+    switch (indColorNewPart) {
+        case 1: newPartColor = Color(240, 240, 0); break;   // rgb(240, 240, 0)   O amarillo
+        case 2: newPartColor = Color(0, 240, 0); break;     // rgb(0, 240, 0)     S verde
+        case 3: newPartColor = Color(240, 0, 0); break;     // rgb(240, 0, 0)     Z rojo
+        case 4: newPartColor = Color(0, 0, 240); break;     // rgb(0, 0, 240)     J azul
+        case 5: newPartColor = Color(240, 160, 0); break;   // rgb(240, 160, 0)   L naranja
+        case 6: newPartColor = Color(160, 0, 240); break;   // rgb(160, 0, 240)   T púrpura
+        case 7: newPartColor = Color(0, 240, 240); break;   // rgb(0, 240, 240)   I cian
+    }     
+    return true;             
+}
+
 void Board::UpdateBoardColors(){
     for (int i = 0; i < 20; i++) {
         for (int j = 0; j < 10; j++) {
             switch (board[i][j]) {
-                case 0: boardShapes[i][j].setFillColor(Color(50, 50, 50)); break;    // rgb(50, 50, 50)
-                case 1: boardShapes[i][j].setFillColor(Color(255, 166, 0)); break;   // rgb(255, 166, 0)
-                case 2: boardShapes[i][j].setFillColor(Color(245, 152, 245)); break; // rgb(245, 152, 245)
-                case 3: boardShapes[i][j].setFillColor(Color(51, 204, 153)); break;  // rgb(51, 204, 153)
-                case 4: boardShapes[i][j].setFillColor(Color(255, 110, 110)); break; // rgb(255, 110, 110)
-                case 5: boardShapes[i][j].setFillColor(Color(255, 204, 77)); break;  // rgb(255, 204, 77)
-                case 6: boardShapes[i][j].setFillColor(Color(166, 166, 255)); break; // rgb(166, 166, 255)
-                case 7: boardShapes[i][j].setFillColor(Color(138, 194, 247)); break; // rgb(138, 194, 247)
-
+                case 0: boardShapes[i][j].setFillColor(Color(50, 50, 50)); break;    // rgb(50, 50, 50)    vacío
+                case 1: boardShapes[i][j].setFillColor(Color(240, 240, 0)); break;   // rgb(240, 240, 0)   O amarillo
+                case 2: boardShapes[i][j].setFillColor(Color(0, 240, 0)); break;     // rgb(0, 240, 0)     S verde
+                case 3: boardShapes[i][j].setFillColor(Color(240, 0, 0)); break;     // rgb(240, 0, 0)     Z rojo
+                case 4: boardShapes[i][j].setFillColor(Color(0, 0, 240)); break;     // rgb(0, 0, 240)     J azul
+                case 5: boardShapes[i][j].setFillColor(Color(240, 160, 0)); break;   // rgb(240, 160, 0)   L naranja
+                case 6: boardShapes[i][j].setFillColor(Color(160, 0, 240)); break;   // rgb(160, 0, 240)   T púrpura
+                case 7: boardShapes[i][j].setFillColor(Color(0, 240, 240)); break;   // rgb(0, 240, 240)   I cian
+                default:
+                    boardShapes[i][j].setFillColor(newPartColor);
+                    break; 
             }
            
         }
@@ -45,3 +78,4 @@ void Board::draw(RenderTarget& rt, RenderStates rs) const{
         }
     }
 }
+
