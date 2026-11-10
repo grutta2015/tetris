@@ -49,6 +49,56 @@ bool Board::InstallPart(){
     return true;             
 }
 
+bool Board::UpdateBoard(){
+    bool limit=0;
+    int aux;
+
+    if(timer>=limitTimer){
+        aux=0;
+        for(int i=18; i>=0; i--){
+            for(int j=0; j<10; j++){
+                if (board[i][j]==-1){
+                    if(board[i+1][j]<=0) aux++;
+                }
+            }
+        }
+        if (aux==4){
+            indY++;
+            for(int i=18; i>=0; i--){
+                for(int j=0; j<10; j++){
+                    if (board[i][j]==-1){
+                        board[i][j]=0;
+                        board[i+1][j]=-1;                     
+                    }
+                }
+            }
+            aux=0;
+            for(int i=18; i>=0; i--){
+                for(int j=0; j<10; j++){
+                    if (board[i][j]==-1){
+                        if(board[i+1][j]<=0) aux++;
+                    }
+                }
+            }
+            if (aux!=4){
+                for(int i=19; i>=0; i--){
+                    for(int j=0; j<10; j++){
+                        if(board[i][j]==-1) board[i][j]=indColorNewPart;                    
+                    }
+                }
+                limit=1;
+            }
+            else{
+                limit=1; 
+            }
+        }
+        timer=0;
+    }
+    timer++;
+    return limit;
+
+}
+
 void Board::UpdateBoardColors(){
     for (int i = 0; i < 20; i++) {
         for (int j = 0; j < 10; j++) {

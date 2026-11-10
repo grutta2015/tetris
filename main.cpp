@@ -18,6 +18,7 @@ int main(){
             if (event->is<Event::Closed>())
                 window.close();
         }
+        board.UpdateBoard();
         board.UpdateBoardColors();
         window.clear(Color(20, 20, 20));
         window.draw(board);
