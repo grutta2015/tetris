@@ -21,10 +21,19 @@ class Board : public Drawable
 
         int board[20][10];
         RectangleShape boardShapes[20][10];
+
+    private:
+        vector<vector<bool>> currentPart;
+
     public:
         Board();
         bool InstallPart();
         bool UpdateBoard(); // actualiza tablero, para ver si hay lineas completas, la pieza se ha colocado, se perdio, etc
         void UpdateBoardColors();
+        void UpdateLimitTimer(int l);
+        void Right();
+        void Left();
+        void RotatePart();
+        int CheckLines();
         virtual void draw(RenderTarget& rt, RenderStates rs) const override; 
 };
